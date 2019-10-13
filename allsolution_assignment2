@@ -1,0 +1,107 @@
+######################[solution:1]
+def subArraySum(arr, n, sum):
+    for i in range(n):
+        curr_sum = arr[i]
+
+
+        j = i + 1
+        while j <= n:
+            temp=[]
+            if curr_sum == sum:
+                for h in range(i,j):
+                    temp.append(arr[h])
+                print(temp)
+
+
+                return 1
+
+            if curr_sum > sum or j == n:
+                break
+
+            curr_sum = curr_sum  + arr[j]
+            j += 1
+
+    print("No subarray found")
+    return 0
+
+arr= list (map (int,input().split()))
+n=len(arr)
+sum=int(input())
+subArraySum(arr, n, sum)
+############################[solution 2]
+def check(arr, n):
+    modify = 0
+
+
+    if (arr[n - 1] >= arr[n - 2]):
+        arr[n - 1] = arr[n - 2] - 1
+        modify += 1
+
+
+    if (arr[0] <= arr[1]):
+        arr[0] = arr[0] + 1
+        modify += 1
+
+
+    for i in range(n - 2, 0, -1):
+
+
+        if (arr[i - 1] <= arr[i] and arr[i + 1] <= arr[i]) or \
+                (arr[i - 1] >= arr[i] and arr[i + 1] >= arr[i]):
+
+
+            arr[i] = (arr[i - 1] + arr[i + 1]) // 2
+            modify += 1
+
+
+            if (arr[i] == arr[i - 1] or arr[i] == arr[i + 1]):
+                return False
+
+
+    if (modify > 1):
+        return False
+
+    return True
+
+
+arr = list(map(int,input().split()))
+n = len(arr)
+
+if (check(arr, n)):
+    print("Yes")
+else:
+    print("No")
+##########3[solution 3]
+def solve( s , k):
+    arr = s.split()
+    output = []
+    buffer_arr = []
+    buffer_len = -1
+    i = 0
+
+    while i < len(arr):
+        w = arr[i]
+        if len(w) > k:
+            print('\n[*] Cannot complete because of this word: "%s"' % w)
+            return
+        if (len(w) + buffer_len + 1) <= k:
+            buffer_len += len(w) + 1
+            buffer_arr.append(w)
+            i += 1
+        else:
+            result = ' '.join(buffer_arr)
+            output.append(result)
+            buffer_arr = []
+            buffer_len = -1
+    if buffer_arr:
+        result = ' '.join(buffer_arr)
+        output.append(result)
+    return output
+
+
+
+input_str=input()
+k = int(input())
+X = solve(input_str, k)
+for s in X:
+    print(s)
